@@ -1,4 +1,3 @@
-import { Alert, AlertIcon, AlertTitle } from '@chakra-ui/react';
 import React from 'react';
 
 type Props = Readonly<{
@@ -7,8 +6,10 @@ type Props = Readonly<{
 }>;
 
 export const ErrorAlert = ({ children, className }: Props) => (
-  <Alert className={className} status="error">
-    <AlertIcon />
-    <AlertTitle>{children}</AlertTitle>
-  </Alert>
+  <div
+    className={`mt-2 bg-red-500 text-sm text-white rounded-lg p-4${className ? ` ${className}` : ''}`}
+    role="alert"
+  >
+    {children}
+  </div>
 );
