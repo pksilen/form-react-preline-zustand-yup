@@ -1,5 +1,6 @@
 import clsx from 'clsx';
 import React from 'react';
+import { tw } from '../../../utils/tw';
 
 type Props = Readonly<{
   children: React.ReactNode;
@@ -8,12 +9,13 @@ type Props = Readonly<{
 
 export const SubmitButton = ({ children, className }: Props) => (
   <button
-    type="submit"
     className={clsx(
-      'inline-flex items-center gap-x-2 rounded-lg border border-transparent disabled:opacity-50',
-      'bg-blue-600 px-4 py-3 text-sm font-semibold text-white',
-      'hover:bg-blue-700 disabled:pointer-events-none'
+      tw`rounded-lg border border-transparent bg-blue-600 px-4
+      py-3 text-center text-sm font-semibold text-white hover:bg-blue-700
+      disabled:pointer-events-none disabled:opacity-50`,
+      className
     )}
+    type="submit"
   >
     {children}
   </button>
