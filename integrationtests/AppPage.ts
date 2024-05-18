@@ -8,6 +8,7 @@ export default class AppPage {
   readonly inputs: Record<keyof User, Locator>;
   readonly registerButton: Locator;
   readonly registeredUserListItem: Locator;
+  readonly validationErrorMsgs: Locator;
   readonly registrationErrorMsg: Locator;
   readonly invalidEmailInput: Locator;
 
@@ -16,13 +17,14 @@ export default class AppPage {
     private readonly registrationShouldFail = false
   ) {
     this.page = page;
+    this.validationErrorMsgs = page.getByText(/is required/i);
     this.registrationErrorMsg = page.getByText(/Registration failed/i);
-    this.invalidEmailInput = page.locator('input[name="email"][aria-invalid="true"]');
+    this.invalidEmailInput = page.getByText(/Email is not valid/i);
 
     this.inputs = Object.keys(fakeUser).reduce(
       (inputs, fieldName) => ({
         ...inputs,
-        [fieldName]: page.getByPlaceholder(camelCaseIdentifierToWords(fieldName))
+        [fieldName]: page.getByLabel(camelCaseIdentifierToWords(fieldName))
       }),
       {} as Record<keyof User, Locator>
     );
@@ -48,8 +50,6 @@ export default class AppPage {
   }
 
   async expectUserRegistrationFormToShowErrors() {
-    await expect(this.page.locator('input[aria-invalid=true]')).toHaveCount(
-      Object.keys(fakeUser).length
-    );
+    await expect(this.validationErrorMsgs).toHaveCount(Object.keys(fakeUser).length);
   }
 }
